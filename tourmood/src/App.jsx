@@ -1,35 +1,94 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from 'react';
+import { generateItinerary } from './api/gemini';
+import './App.css';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [mood, setMood] = useState(null);
+  const [location, setLocation] = useState('');
+  const [itinerary, setItinerary] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
+
+  const moods = [
+    { id: 'excited', label: 'Excited', emoji: '🎉' },
+    { id: 'relaxed', label: 'Relaxed', emoji: '😌' },
+    { id: 'dreamy', label: 'Dreamy', emoji: '🌌' },
+    { id: 'brave', label: 'Brave', emoji: '🦁' }
+  ];
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!mood || !location) {
+      setError('Please select both mood and location');
+      return;
+    }
+
+    setIsLoading(true);
+    setError('');
+    
+    try {
+      const result = await generateItinerary(mood, location);
+      setItinerary(result);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
+    <div className="app">
+      <h1>TourMood 🌍</h1>
+      <p>Get personalized travel recommendations based on your mood</p>
+      
+      <form onSubmit={handleSubmit}>
+        <div className="mood-selector">
+          <h3>How are you feeling today?</h3>
+          <div className="mood-grid">
+            {moods.map((m) => (
+              <button
+                key={m.id}
+                type="button"
+                className={`mood-btn ${mood === m.id ? 'active' : ''}`}
+                onClick={() => setMood(m.id)}
+              >
+                <span className="emoji">{m.emoji}</span>
+                {m.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className="location-input">
+          <h3>Where would you like to go?</h3>
+          <input
+            type="text"
+            value={location}
+            onChange={(e) => setLocation(e.target.value)}
+            placeholder="Enter a city or country"
+            required
+          />
+        </div>
+
+        <button type="submit" disabled={isLoading}>
+          {isLoading ? 'Generating...' : 'Get Recommendations'}
         </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+      </form>
+
+      {error && <div className="error">{error}</div>}
+
+      {itinerary && (
+        <div className="results">
+          <h2>Your {mood} Adventure in {location}</h2>
+          <div className="itinerary">
+            {itinerary.split('\n').map((line, i) => (
+              <p key={i}>{line}</p>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  );
 }
 
-export default App
+export default App;

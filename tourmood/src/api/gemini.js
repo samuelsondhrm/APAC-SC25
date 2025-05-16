@@ -1,15 +1,18 @@
-import { GoogleGenerativeAI } from "@google/generative-ai";
+import { GoogleGenerativeAI } from '@google/generative-ai';
+import dotenv from 'dotenv';
+import { runnerImport } from 'vite';
 
-// Works in both Vite and Node.js
-const apiKey =
-  process.env.VITE_GEMINI_API_KEY || import.meta.env.VITE_GEMINI_API_KEY;
+// Load environment variables
+dotenv.config({ path: '.env.local' });
 
-if (!apiKey) throw new Error("Missing Gemini API key");
+const apiKey = process.env.API_KEY;
+if (!apiKey) throw new Error('Missing API key in .env file');
+
 const genAI = new GoogleGenerativeAI(apiKey);
 
 export async function generateItinerary(mood, location) {
   try {
-    const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
 
     const prompt = `
       You are a travel assistant for a TourMood app.
@@ -39,7 +42,7 @@ export async function generateItinerary(mood, location) {
       Description text explaining why this fits the mood...
 	  Recommended activity..
 	  What to expect on the site..
-      (Distance: 1.2km | Duration: 2-3 hours)
+      (Duration: 2-3 hours)
     `;
 
     function getMoodDescription(mood) {
@@ -54,9 +57,11 @@ export async function generateItinerary(mood, location) {
 
     const result = await model.generateContent(prompt);
     const response = await result.response;
-    return response.text();
-  } catch (error) {
-    console.error("Error generating itinerary:", error);
+    const text = response.text();
+	return text;
+	
+  	} catch (error) {
+    console.error("Error:", error);
     throw new Error("Failed to generate itinerary. Please try again.");
-  }
+  	}
 }

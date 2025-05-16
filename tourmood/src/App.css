@@ -1,42 +1,114 @@
-#root {
-  max-width: 1280px;
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  max-width: 800px;
   margin: 0 auto;
+  padding: 20px;
+  background-color: #f5f5f5;
+}
+
+.app {
+  background: white;
   padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  color: #2c3e50;
   text-align: center;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.mood-selector {
+  margin: 2rem 0;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.mood-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-top: 1rem;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.mood-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  background: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
-.card {
-  padding: 2em;
+.mood-btn:hover {
+  border-color: #3498db;
 }
 
-.read-the-docs {
-  color: #888;
+.mood-btn.active {
+  border-color: #2c3e50;
+  background-color: #f0f7ff;
+}
+
+.emoji {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.location-input {
+  margin: 2rem 0;
+}
+
+.location-input input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+button[type="submit"] {
+  width: 100%;
+  padding: 1rem;
+  background-color: #2c3e50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button[type="submit"]:hover {
+  background-color: #1a252f;
+}
+
+button[type="submit"]:disabled {
+  background-color: #95a5a6;
+  cursor: not-allowed;
+}
+
+.error {
+  color: #e74c3c;
+  margin: 1rem 0;
+  padding: 1rem;
+  background: #fdedec;
+  border-radius: 4px;
+}
+
+.results {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background: white;
+  border-radius: 8px;
+  border: 1px solid #eee;
+}
+
+.itinerary {
+  white-space: pre-line;
+  line-height: 1.6;
+}
+
+.itinerary p {
+  margin: 0.5rem 0;
 }

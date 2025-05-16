@@ -1,0 +1,54 @@
+/* src/styles/MoodSelector.css */
+
+.mood-selector {
+  padding: 2rem;
+  text-align: center;
+}
+
+.mood-selector h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  font-weight: bold;
+  color: #000;
+}
+
+.mood-options {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+}
+
+.mood-button {
+  width: 60%;
+  padding: 1rem 2rem;
+  font-size: 1.2rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  color: #000;
+  transition: filter 0.2s ease;
+}
+
+.mood-button.relaxed {
+  background-color: #bfd8c8;
+}
+
+.mood-button.excited {
+  background-color: #e77951;
+  color: #fff;
+}
+
+.mood-button.dreamy {
+  background-color: #d6b8e7;
+}
+
+.mood-button.brave {
+  background-color: #5e7046;
+  color: #fff;
+}
+
+.mood-button:hover {
+  filter: brightness(0.9);
+}
